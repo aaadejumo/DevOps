@@ -1,14 +1,15 @@
 ---
 - hosts: voms-servers
   name: VOMS plays
-  sudo: true
-  sudo_user: root
+  become: true
+  become_user: root
   roles:
-    - bootstrap
-    - common
-    - certificates
-    - umd
-    - voms
+    - {role: bootstrap, tags: bootstrap}
+    - {role: common, tags: common}
+    - {role: certificates, tags: certificates}
+    - {role: UMD-role, tags: umd}
+    - {role: voms, tags: voms}
   vars_files:
-    - roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml
-    - roles/common/vars/middleware/igtf.yml
+    - "group_vars/passwords-{{ site_name }}.yml"
+    - "roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+    - "roles/common/vars/middleware/igtf.yml"

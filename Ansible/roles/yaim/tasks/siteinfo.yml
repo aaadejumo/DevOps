@@ -12,8 +12,7 @@
   tags:
     - yaim
     - yaimfiles
-  notify:
-    - run yaim
+  when: emi_service != "UI"
 
 - name: Create groups.conf file
   template:
@@ -22,11 +21,23 @@
     owner: root
     group: root
     mode: 0644
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
+  when: emi_service != "UI"
+
+- name: Copy services files needed for ARGUS
+  template:
+    src: opt/glite/yaim/etc/siteinfo/services/glite-argus_server.j2
+    dest: "/opt/glite/yaim/etc/{{ site_name }}/siteinfo/services/glite-argus_server"
+    owner: root
+    group: root
+    mode: 0644
+  when: emi_service == "ARGUS_server"
+  tags:
+    - yaim
+    - yaimfiles
+    - CE
 
 - name: Create wn-list.conf file
   template:
@@ -36,8 +47,6 @@
     group: root
     mode: 0644
   when: emi_service == "CREAM_CE" or emi_service == "WN"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -52,8 +61,6 @@
     group: root
     mode: 0644
   when: emi_service == "WMS"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -67,8 +74,6 @@
     group: root
     mode: 0644
   when: emi_service == "CREAM_CE"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -82,8 +87,6 @@
     group: root
     mode: 0644
   when: emi_service == "CREAM_CE" or emi_service == "WN"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -97,8 +100,6 @@
     group: root
     mode: 0644
   when: emi_service == "WN"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -112,8 +113,6 @@
     group: root
     mode: 0644
   when: emi_service == "CREAM_CE"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -130,8 +129,6 @@
     - emi_dpm_mysql
     - emi_lfc_mysql
   when: emi_service == "lfc"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -145,8 +142,6 @@
     group: root
     mode: 0644
   when: emi_service == "BDII_site"
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -160,8 +155,6 @@
      group: root
      mode: 0644
   when: emi_service == 'myproxy'
-  notify:
-    - run yaim
   tags:
     - yaim
     - px
@@ -174,8 +167,6 @@
     group: root
     mode: 0644
   when: emi_service == 'emi_lfc'
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -188,8 +179,6 @@
     owner: root
     group: root
     mode: 0600
-  notify:
-    - run yaim
   tags:
     - yaim
     - yaimfiles
@@ -197,10 +186,11 @@
 
 - name: Tell the team
   slack:
-    domain: africa-arabia-roc.slack.com
-    token: V4qyCjHMRUb9ZmNdcf2hVEmI
+    token: "{{ slack_token }}"
     msg: "running yaim on {{ inventory_hostname }} with {{ yaim_options }}"
     username: "Ansible on {{ ansible_hostname }} at {{ site_name }}"
+    validate_certs: false
+    icon_emoji: ansible
   tags:
     - yaim
     - slack
@@ -215,10 +205,11 @@
 
 - name: Tell the team the yaim output
   slack:
-    domain: africa-arabia-roc.slack.com
-    token: V4qyCjHMRUb9ZmNdcf2hVEmI
-    msg: "yaim on {{ inventory_hostname }} with {{ yaim_options }} has finished "
+    token: "{{ slack_token }}"
+    msg: "yaim on {{ inventory_hostname }} with {{ yaim_options }} has finished"
     username: "Ansible on {{ ansible_hostname }} at {{ site_name }}"
+    icon_emoji: ansible
+    validate_certs: false
   tags:
     - yaim
     - slack

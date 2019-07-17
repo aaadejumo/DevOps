@@ -1,0 +1,10 @@
+---
+# tasks file for xrootd
+- name: Install xrootd metapackage
+  yum:
+    name: xrootd
+    state: installed
+  become: true
+  tags:
+    - xrootd
+    - install

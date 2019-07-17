@@ -1,3 +1,104 @@
-[submodule "Ansible/roles/osct.tomcat-8"]
+[submodule "Ansible/roles/jenkins-2.0"]
+	path = Ansible/roles/jenkins-2.0
+	url = https://github.com/Sci-GaIA/WinterSchoolCI
+[submodule "Ansible/roles/tomcat-8"]
 	path = Ansible/roles/osct.tomcat-8
-	url = git@github.com:osct/tomcat-8.git
+	url = https://github.com/osct/tomcat-8.git
+[submodule "Ansible/roles/fgapiserver-role"]
+	path = Ansible/roles/fgapiserver-role
+	url = https://github.com/brucellino/fgapiserver-role
+	branch = master
+[submodule "Ansible/roles/cvmfs-client-2.2"]
+	path = Ansible/roles/cvmfs-client-2.2
+	url = https://github.com/AAROC/cvmfs-client-2.2
+	branch = master
+[submodule "Containers/Dockerfiles/umd-ui"]
+	path = Containers/Dockerfiles/umd-ui
+	url = https://github.com/AAROC/umd-ui
+[submodule "Containers/Dockerfiles/AnsibleContainer"]
+	path = Containers/Dockerfiles/AnsibleContainer
+	url = https://github.com/AAROC/AnsibleContainer
+[submodule "Containers/Dockerfiles/umd-wn"]
+	path = Containers/Dockerfiles/umd-wn
+	url = https://github.com/AAROC/umd-wn
+[submodule "Ansible/roles/africagrid-ca"]
+	path = Ansible/roles/africagrid-ca
+	url = https://github.com/AAROC/africagrid-ca
+	branch = master
+[submodule "Ansible/roles/shibboleth-idp-v3"]
+	path = Ansible/roles/shibboleth-idp-v3
+	url = https://github.com/osct/shibboleth-idp-v3.git
+[submodule "Containers/Dockerfiles/future-gateway-api-server"]
+	path = Containers/Dockerfiles/future-gateway-api-server
+	url = https://github.com/AAROC/future-gateway-api-server
+[submodule "Ansible/roles/fgapi-db"]
+	path = Ansible/roles/fgapi-db
+	url = https://github.com/brucellino/fgapi-db
+	branch = master
+[submodule "Containers/future-gateway-db"]
+	path = Containers/Dockerfiles/future-gateway-db
+	url = https://github.com/AAROC/future-gateway-db
+[submodule "Ansible/roles/AAROC.certificates"]
+	path = Ansible/roles/AAROC.certificates
+	url = https://github.com/AAROC/certificates
+	branch = master
+[submodule "Containers/Ansible-Container/CODE-RADE-build-containers"]
+	path = Containers/Ansible-Container/CODE-RADE-build-containers
+	url = https://github.com/AAROC/CODE-RADE-build-containers.git
+[submodule "Containers/Ansible-Container/FutureGatewayDB"]
+	path = Containers/Ansible-Container/FutureGatewayDB
+	url = https://github.com/AAROC/FutureGatewayDB.git
+[submodule "Containers/Ansible-Container/FutureGatewayStack-AC"]
+	path = Containers/Ansible-Container/FutureGatewayStack-AC
+	url = https://github.com/AAROC/FutureGatewayStack-AC.git
+[submodule "Ansible/roles/CODE-RADE-jenkins-role"]
+	path = Ansible/roles/CODE-RADE-jenkins-role
+	url = https://github.com/AAROC/CODE-RADE-jenkins-role
+	branch = master
+[submodule "Ansible/roles/osct.shibboleth-idp-v3"]
+	path = Ansible/roles/osct.shibboleth-idp-v3
+	url = https://github.com/osct/shibboleth-idp-v3
+	branch = master
+[submodule "Ansible/roles/harden-ssh"]
+	path = Ansible/roles/harden-ssh
+	url = https://github.com/AAROC/harden-ssh
+	branch = master
+[submodule "Ansible/roles/umd-top-bdii"]
+	path = Ansible/roles/umd-top-bdii
+	url = https://github.com/AAROC/umd-top-bdii.git
+[submodule "Ansible/roles/CODE-RADE-container"]
+	path = Ansible/roles/CODE-RADE-container
+	url = https://github.com/AAROC/CODE-RADE-container.git
+[submodule "Ansible/roles/AAROC.fg-db"]
+	path = Ansible/roles/AAROC.fg-db
+	url = https://github.com/AAROC/AAROC.fg-db
+[submodule "Ansible/roles/AAROC.fg-api"]
+	path = Ansible/roles/AAROC.fg-api
+	url = https://github.com/AAROC/AAROC.fg-api
+[submodule "Ansible/roles/AAROC.fg-ge"]
+	path = Ansible/roles/AAROC.fg-ge
+	url = https://github.com/AAROC/AAROC.fg-ge
+[submodule "Ansible/roles/UMD-role"]
+	path = Ansible/roles/UMD-role
+	url = https://github.com/AAROC/UMD-role
+[submodule "Ansible/roles/glibrary-role"]
+	path = Ansible/roles/glibrary-role
+	url = https://github.com/AAROC/glibrary-role
+[submodule "Ansible/roles/ansible-role-tripleo-overcloud"]
+	path = Ansible/roles/ansible-role-tripleo-overcloud
+	url = https://github.com/AAROC/ansible-role-tripleo-overcloud.git
+[submodule "Ansible/roles/perfsonar-base"]
+	path = Ansible/roles/perfsonar-base
+	url = https://github.com/AAROC/perfsonar-base.git
+[submodule "Ansible/roles/perfsonar-toolkit"]
+	path = Ansible/roles/perfsonar-toolkit
+	url = https://github.com/AAROC/perfsonar-toolkit.git
+[submodule "Ansible/roles/the-boss-role"]
+	path = Ansible/roles/the-boss-role
+	url = https://github.com/AAROC/the-boss-role.git
+[submodule "Ansible/roles/cvmfs-server"]
+	path = Ansible/roles/cvmfs-server
+	url = https://github.com/AAROC/cvmfs-server
+[submodule "Ansible/roles/AAROC.regional-apel-server"]
+	path = Ansible/roles/AAROC.regional-apel-server
+	url = https://github.com/AAROC/AAROC.regional-apel-server

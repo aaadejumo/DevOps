@@ -1,0 +1,14 @@
+galaxy_info:
+  author: 
+  description: Describe your awesome application here.
+  company: Your company
+  dependencies: []
+  license: license (GPLv2, CC-BY, etc)
+
+  min_ansible_container_version: 0.9.3rc0
+  tags:
+    - accounting
+    - cloud
+    - grid
+    - egi
+    - aaroc

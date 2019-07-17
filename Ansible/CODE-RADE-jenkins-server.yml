@@ -1,0 +1,85 @@
+---
+# CODE-RADE Jenkins server
+- name: apply basic and common roles
+  # strategy: debug
+  hosts: ci
+  remote_user: root
+  pre_tasks:
+    - include_vars: "roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - name: Inform the team of the start
+      slack:
+        msg: "Starting CODE-RADE CI deployment. on {{ inventory_hostname }}. This baby has {{ ansible_processor_count }} CPUs and {{ ansible_memory_mb.real.total // 1000 }} GB of RAM "
+        # channel: coderade # the channel is encoded in the token.
+        color: normal
+        link_names: 0
+        token: "{{ slack_token }}"
+        username: "Orchy McConfigface on {{ inventory_hostname }}"
+      tags:
+        - slack
+  roles:
+    - {role: bootstrap, become: true, tags: bootstrap}
+    - {role: AAROC.certificates, needs_certificate: true, become: true, tags: certificates}
+    - {role: harden-ssh, become: true, tags: harden-ssh}
+    - {role: ansible-role-docker, become: true, docker_compose: yes, docker_version: latest, docker_users: jenkins, tags: docker}
+  post_tasks:
+    - include_vars: "roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - name: Inform the team of successful base
+      slack:
+        channel: coderade # the channel is encoded in the token.
+        color: good
+        link_names: 0
+        token: "{{ slack_token }}"
+        username: "Orchy McConfigface on {{ inventory_hostname }}"
+        attachments:
+          - text: "CODE-RADE base has been applied"
+            fallback: "roles run : bootstrap, certificates, harden-ssh "
+            thumb_url: "https://github.com/AAROC/CODE-RADE/blob/gh-pages/images/coderade.png?raw=true"
+            footer: "AAROC CODE-RADE Jenkins role"
+            fields:
+              - title: ":pray:  bootstrap"
+                value: ":item_done:"
+                short: true
+              - title: ":cop: certificates"
+                value: ":item_done:"
+                short: true
+              - title: ":triumph: harden-ssh"
+                value: ":item_done:"
+                short: true
+              - title: ":whale: docker"
+                value: ":item_done:"
+      tags:
+        - slack
+
+
+- name: Make CODE-RADE server
+  strategy: debug
+  hosts: ci
+  remote_user: ansible
+  vars:
+    - date: "{{ lookup('pipe','date +%Y%m%d-%H%M') }}"
+  pre_tasks:
+    - include_vars: "roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - include_vars: roles/common/vars/middleware/IGTF.yml
+    - name: inform the team that jenkins config will start
+      slack:
+        msg: "The machine is ready for you, Jenkins."
+        # channel: coderade # the channel is encoded in the token.
+        color: good
+        link_names: 0
+        token: "{{ slack_token }}"
+        username: "Orchy McConfigface on {{ inventory_hostname }}"
+      tags:
+        - slack
+  post_tasks:
+    - name: inform the  team that Jenkins config is done.
+      slack:
+        msg: "CODE-RADE server CI server is up. Please go check it."
+        # channel: coderade # the channel is encoded in the token.
+        color: good
+        link_names: 0
+        token: "{{ slack_token }}"
+        username: "Orchy McConfigface on {{ inventory_hostname }}"
+      tags:
+        - slack
+  roles:
+    - {role: CODE-RADE-jenkins-role, become: true, tags: jenkins}

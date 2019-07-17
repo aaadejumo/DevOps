@@ -1,0 +1,8 @@
+[undercloud]
+152.106.18.205 ansible_user=bbecker
+[controller]
+152.106.18.205 ansible_user=bbecker
+
+
+[za-uj:children]
+controller

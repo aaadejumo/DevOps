@@ -1,18 +1,17 @@
 ---
 - hosts: all
   name: Make all the hosts ansible executors
-  sudo: true
+  become: true
   roles:
-    - bootstrap
-    - ansible-executor
+    - {role: bootstrap, tags: bootstrap}
+    - {role: ansible-executor, tags: ansible-executor}
   vars_files:
     - group_vars/passwords-{{ site_name }}.yml
   pre_tasks:
     - name: set some facts
       set_fact: playbook=ansible-executor
     - name: Announce the play via Slack
-      action:
-        module: slack
+      slack:
         domain: africa-arabia-roc.slack.com
         token: "{{ slack_token }}"
         msg: "Running {{ playbook }} on {{ inventory_hostname }} at {{ site_name }} :worried: "
@@ -22,8 +21,7 @@
         parse: 'full'
   post_tasks:
     - name: Announce via Slack
-      action:
-        module: slack
+      slack:
         domain: africa-arabia-roc.slack.com
         token: "{{ slack_token }}"
         msg: "{{ playbook }} on {{ inventory_hostname }} at {{ site_name }} has finished :smile: O/"

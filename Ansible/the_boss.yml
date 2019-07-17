@@ -1,0 +1,9 @@
+---
+# Playbook to deploy the Boss, a slackbot to help us work. Born to Run.
+
+- name: Deploy the Boss
+  hosts: the_boss
+  pre_tasks:
+    - include_vars: group_vars/passwords-the_boss.yml
+  roles:
+    - {role: the-boss-role, hubot_admin: drillbot}

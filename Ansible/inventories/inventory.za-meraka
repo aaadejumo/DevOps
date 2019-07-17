@@ -11,15 +11,16 @@
 #############
 # We also want to separate the site services from core services
 # BB 11/13
+# Removed a few services from inventory at this site.
+# BB 01/16
 
-# non-grid services
-[dns-servers]
-# we should put the dns servers in here when we need to move
-# hosts in and out of DNS
+# boss servers
+[boss]
+#ansible.c4.csir.co.za
 
 # user interfaces
 [UIs]
-ui-dev.c4.csir.co.za
+#ui-dev.c4.csir.co.za
 
 ##############
 # core services #
@@ -31,11 +32,11 @@ ui-dev.c4.csir.co.za
 
 # information systems
 [top-bdiis]
-top-bdii.c4.csir.co.za  emi_service='BDII_top' yaim_options='-n BDII_top' needs_certificate='false'
+top-bdii.c4.csir.co.za  ansible_user=ansible emi_service='BDII_top' yaim_options='-n BDII_top' needs_certificate='false'
 
 # workload management
 [wms-servers]
-wms.c4.csir.co.za
+wms.c4.csir.co.za ansible_user=ansible
 
 # metadata catalogues
 [lfc-servers]
@@ -43,34 +44,34 @@ wms.c4.csir.co.za
 
 # file transfer
 [fts-servers]
-fts.c4.csir.co.za
+# fts.c4.csir.co.za
 
 # Repositories
 [cvmfs-stratum-0]
-apprepo.sagrid.ac.za needs_certificate='false'
+#apprepo.sagrid.ac.za needs_certificate='false'
 
 # web user interface
 [dirac]
-dirac.c4.csir.co.za needs_certificate='true'
+# dirac.c4.csir.co.za needs_certificate='true'
 
 # accounting
 [apel-servers]
-apel-server.c4.csir.co.za needs_certificate='true'
+apel-server.c4.csir.co.za needs_certificate='true' ansible_user=ansible
 
 # AAI
 [voms-servers]
-voms-stage.c4.csir.co.za needs_certificate='true'
+#voms-stage.c4.csir.co.za needs_certificate='true'
 [argus-servers]
-argus.c4.csir.co.za emi_service='ARGUS' yaim_options='-n ARGUS_server' needs_certificate='true'
+argus.c4.csir.co.za ansible_user=ansible emi_service='ARGUS_server' yaim_options='-n ARGUS_server' needs_certificate='true' needs_mysql="true"
 [perun]
-perun.c4.csir.co.za
+#perun.c4.csir.co.za
 [CA]
-security.sanren.ac.za
+#security.sanren.ac.za
 
 
 # monitoring
 [ngi-nagios]
-nagios.c4.csir.co.za
+nagios.c4.csir.co.za ansible_user=ansible emi_service='SAM-NAGIOS' yaim_option='-n NAGIOS -n SAM_NAGIOS'
 #[vo-sagrid-nagios]
 #sagrid-monitoring.c4.csir.co.za
 
@@ -80,11 +81,11 @@ nagios.c4.csir.co.za
 
 # Site BDII
 [site-bdiis]
-site-bdii.c4.csir.co.za emi_service='BDII_site' yaim_options='-n BDII_site' needs_certificate='false'
+site-bdii.c4.csir.co.za ansible_ssh_user=ansible
 
 # CREAM CE's
 [cream-ces]
-ce01-node001.c4.csir.co.za
+ce01-node001.c4.csir.co.za ansible_ssh_user=ansible emi_service='CREAM_CE' yaim_options='-n CREAM_CE' needs_certificate='true'
 
 [apel-publishers:children]
 cream-ces

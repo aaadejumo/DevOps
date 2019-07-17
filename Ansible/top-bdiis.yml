@@ -6,40 +6,39 @@
 #     - bootstrap
 
 - hosts: top-bdiis
-  name: BDII_TOP plays
-
+  name: top-bdii
   pre_tasks:
-    - debug:
-        msg: "Site is  {{ site_name }}"
-      tags:
-        - debug
+    - name: Include vars
+      include_vars: "{{ item }}"
+      with_items:
+        - "roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+        - roles/common/vars/middleware/IGTF.yml
+        - "group_vars/passwords-{{ site_name | lower }}.yml"
     - name: Tell the team
       slack:
-        domain: africa-arabia-roc.slack.com
-        token: V4qyCjHMRUb9ZmNdcf2hVEmI
+        token: "{{ slack_token }}"
         msg: "Running top-bdii play at on {{ ansible_hostname }} at {{ site_name }}"
         username: "Ansible on {{ ansible_hostname }} at {{ site_name }}"
         validate_certs: False
+        channel: "{{ slack_channel }}"
+        icon_emoji: ansible
       tags:
         - slack
   roles:
-    - { role: common, become: true }
-    - { role: certificates, become: true }
-    - { role: umd, become: true, tags: "umd" }
-    - { role: top-bdii, become: true }
-    - { role: yaim, become: true }
+    - { role: common, become: true, tags: "common"}
+    - { role: UMD-role, become: true, tags: "umd", umd_service: "emi-bdii-top", enable_umd: true, enable_preview: false, umd_version: 4 }
+    - { role: yaim, become: true, tags: "yaim" }
   post_tasks:
-    # - name: Check BDII
-    #   shell : /etc/init.d/bdii status
-    #   register: bdiistatus
-    #   changed_when: False
-    #   tags:
-    #     - testing
-    # - name: debug
-    #   debug:
-    #     var: bdiistatus
-    #   tags:
-    #     - testing
+    - name: Tell the team
+      slack:
+        token: "{{ slack_token }}"
+        msg: "top-bdii play at on {{ ansible_hostname }} at {{ site_name }} has finished  :micdrop:"
+        username: "Ansible on {{ ansible_hostname }} at {{ site_name }}"
+        validate_certs: False
+        channel: "#{{ slack_channel }}"
+        icon_emoji: ansible
+      tags:
+        - slack
     - name: Fix /etc/bdii/DB_CONFIG
       debug: msg="TODO. comment set_flags DB_LOG_INMEMORY set_flags DB_TXN_NOSYNC"
       tags:
@@ -52,8 +51,5 @@
 #      when: '"BDII slapd PID file exists but the process died" in bdiistatus'
       tags:
         - testing
-  vars_files:
-    - "roles/common/vars/distros/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
-    - roles/common/vars/middleware/IGTF.yml
   handlers:
     - include: roles/common/handlers/main.yml

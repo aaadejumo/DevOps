@@ -1,0 +1,32 @@
+---
+- name: Add repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: "https://download.fedoraproject.org/pub/epel/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}"
+    state: present
+
+- name: YUM repo for TrustAnchors
+  get_url:
+    url: "http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo"
+    dest: /etc/yum.repos.d/egi-trustanchors.repo
+  tags:
+    - repos
+    - IGTF
+    - download
+
+- name: EGI trustanchors present
+  yum:
+    name: "{{ igtf_repo_url }}/{{ igtf_release_name }}-{{ igtf_release_version }}.rpm"
+    state: present
+  tags:
+    - repos
+    - IGTF
+    - download
+
+- name: Install prerequisite packages (RedHat)
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ base_packages }}"
+  when: ansible_os_family=="RedHat"

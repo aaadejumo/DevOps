@@ -1,0 +1,116 @@
+---
+# Python packages that the bot needs
+
+python_pips:
+  - ansible
+
+hubot_admin: ansible
+
+hubot_adapter: slack
+
+hubot_node_version: 6.9.1
+
+hubot_admin_dir: "/home/{{ hubot_admin }}"
+
+hubot_dir: "{{ hubot_admin_dir }}/hubot"
+
+hubot_nvm_dir: "{{ hubot_admin_dir }}/.nvm"
+
+hubot_node_dir: "{{ hubot_nvm_dir }}/versions/node/v{{ hubot_node_version }}"
+
+hubot_global_node_packages:
+  - coffee-script
+  - yo
+  - generator-hubot
+  - jsdom
+  - scraper
+  - hubot-slack
+  - hubot-help
+
+hubot_all_dirs:
+  - "{{ hubot_dir }}"
+  - "{{ hubot_nvm_dir }}"
+  - "{{ hubot_admin_dir }}/.npm"
+
+hubot_env:
+   # General Hubot stuff
+   HUBOT_AUTH_ADMIN: U02BJKQR6            # Replace with hubot admin username
+   HUBOT_LOGLEVEL: "warning"
+
+   # Slack variables 
+   # The API token is  kept in the vault file : passwords-bots.yml
+   HUBOT_SLACK_TOKEN: "{{ api_token }}"
+   HUBOT_GITHUB_ORG_TOKEN: "{{ github_org_token }}"
+   HUBOT_GITHUB_ORG_NAME: AAROC
+   HUBOT_JENKINS_URL: https://ci.sagrid.ac.za
+
+   # Weather stuff
+   # HUBOT_WUNDERGROUND_API_KEY: "FIXME" # Replace with Wunderground API key
+
+#############################################################################
+#
+# hubot_identity:             Bot user name
+# hubot_description:          Description of bot
+# hubot_owner:                Name of bot owner
+# hubot_node_packages:        Node.js dependencies
+#
+#############################################################################
+
+hubot_identity: the_boss
+
+hubot_owner: "'Bruce Becker <bruce.becker@africa-grid.org'"
+
+hubot_description: "'Bot to help us get stuff done. Born to run.'"
+
+# packages that some of the scripts might need
+# these are not hubot external packages
+external_packages:
+  
+
+#############################################################################
+#
+# external_scripts: A list of additional Hubot scripts to use
+#
+#############################################################################
+
+hubot_external_scripts:
+  - hubot-suggest
+  - hubot-ascii-art
+  - hubot-coin
+  - hubot-calculator
+  - hubot-maps
+  - hubot-rules
+  - hubot-tomato-timer
+  - hubot-encourage
+  - hubot-waffle-board
+  - hubot-excuse
+  - hubot-github-management
+  - hubot-ansible-me
+  - hubot-jenkins-enhanced
+  - hubot-auth
+
+#############################################################################
+#
+# hubot_custom_scripts: List of scripts from files/scripts to install
+#
+#############################################################################
+
+# hubot_custom_scripts:
+#   - caseofmondays.coffee
+#   - dogatcomputer.coffee
+#   - ignoreme.coffee
+
+#############################################################################
+#
+# hubot_external_git_scripts: A list of additional Hubot scripts to
+#                             check out from git repositories
+#############################################################################
+
+# hubot_external_git_scripts:
+#   - { name: hubot-jenkins-userauth, repo_url: "https://github.com/joestewart/hubot-jenkins-userauth.git" }
+
+# EPEL repository URL
+epel_repo_url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+
+# EPEL repository GPG key
+epel_repo_gpg_key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"

@@ -1,0 +1,5 @@
+---
+- name: Install grafana
+  hosts: dashboard
+  roles:
+  - { role: grafana, become: true, tags: grafana}

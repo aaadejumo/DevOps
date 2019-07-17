@@ -1,0 +1,40 @@
+---
+# This playbook enables CODE-RADE access using CVMFS-2.2 clients on machines.
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: install python
+      raw: 'yum install -y python'
+
+- hosts: all
+  name: Enable CVMFS
+  become: true
+  roles:
+    - cvmfs-client-2.2
+  post_tasks:
+    - name: Ensure a generic user is present
+      user: 
+        name: cvmfs
+        createhome: true
+        state: present
+    - name: Provide CODE-RADE script for environment setup
+      copy:
+        dest: /etc/profile.d/code-rade.sh
+        content: | 
+          SITE="generic"
+          OS="centos7"
+          ARCH="x86_64"
+          CVMFS_DIR="/cvmfs/code-rade.africa-grid.org"
+
+
+- hosts: all
+  remote_user: cvmfs
+  vars:
+    CODE_RADE_VERSION: "{{ lookup('file', '/cvmfs/code-rade.africa-grid.org/version') }}"
+  tasks:
+  - name: CODE-RADE version
+    debug:
+      msg: " CODE RADE version is {{ CODE_RADE_VERSION }}"
+  - name: Use CODE-RADE
+    command: ls /cvmfs/code-rade.africa-grid.org/use.sh

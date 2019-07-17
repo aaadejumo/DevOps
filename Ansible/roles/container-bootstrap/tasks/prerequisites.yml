@@ -7,54 +7,14 @@
 - name: debug
   debug: var=hosttest.stderr
 
-- name: use Google public DNS if necessary
-  lineinfile: dest=/etc/resolv.conf regexp=^nameserver line='nameserver 8.8.8.8'
-  when: "'ping: unknown host www.google.com' in hosttest.stderr"
-  tags:
-    - DNS
+- name: install python rpm wrapper for Ansible
+  raw: yum install -y rpm-python epel-release
+  when: ansible_os_family == 'RedHat'
 
 - name: Install prerequisite packages (RedHat)
-  yum: name={{ item }} state=present
-  with_items:
-    - python-simplejson
-    - libselinux-python
-    - iptables
-    - mlocate
-    - initscripts
-    - chkconfig
-    - system-config-services
-    - openssh-clients
+  package: 
+    name: "{{ item }}" 
+    state: present
+  with_items: "{{prerequisites[ansible_os_family]}}"
   tags:
     - bootstrap
-  when: ansible_os_family=="RedHat"
-- name: Install some useful packages (RedHat)
-  yum: name={{ item }} state=present
-  with_items:
-    - vim-minimal
-  tags:
-    - bootstrap
-  ignore_errors: yes
-  when: ansible_os_family=="RedHat"
-
-- name: Install prerequisite packages (Debian)
-  apt: name={{ item }} state=present
-  with_items:
-    - python-simplejson
-    - iptables
-    - iptables-persistent
-    - mlocate
-    - initscripts
-    - openssh-client
-  tags:
-    - bootstrap
-  when: ansible_os_family=="Debian"
-
-- name: Install some useful packages (Debian)
-  apt: name={{ item }} state=present
-  with_items:
-    - htop
-    - vim
-  tags:
-    - bootstrap
-  ignore_errors: yes
-  when: ansible_os_family=="Debian"

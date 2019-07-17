@@ -1,10 +1,20 @@
+# Ignore Ansible retry files
+*.retry
 # Ingore munge keys
 munge.key.*
 # Ignore public/private x509 credential pairs
 hostkey.pem*
+*.key
+*.p12
 # ignore editor backup files
 *~
 \#*
 # ignore geany files
 *debuglog*
-
+# ignore docs dir - that's managed in the docs branch
+docs/
+*.pyc
+# ignore vscode stuff
+.vscode/
+# Vagrant cache
+.vagrant
